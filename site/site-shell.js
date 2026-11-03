@@ -44,7 +44,6 @@ class SiteHeader extends HTMLElement {
             <p>Questions about your stay?</p>
             <div class="contact-bar__links" aria-label="Contact Howard Lake Village">
               <a href="tel:+17634382711"><strong>+1 763-438-2711</strong></a>
-              <a href="mailto:info@howardlakevillagemn.com"><strong>info@howardlakevillagemn.com</strong></a>
               <a href="/contact/"><span aria-hidden="true">Questions?</span><strong>Contact us</strong></a>
             </div>
           </div>
@@ -65,7 +64,7 @@ class SiteHeader extends HTMLElement {
               <div class="nav-submenu"><a href="/explore/weekend-getaway-from-minneapolis/">Weekend Getaway</a><a href="/explore/fishing-howard-lake/">Fishing &amp; Lake Life</a><a href="/explore/things-to-do-howard-lake/">Things to Do</a></div>
             </div>
             <a href="/gallery/">Gallery</a><a href="/about/">About Us</a><a href="/contact/">Contact</a>
-            <div class="mobile-nav-contact"><a href="tel:+17634382711">Call us: +1 763-438-2711</a><a href="mailto:info@howardlakevillagemn.com">Email us: info@howardlakevillagemn.com</a><a href="/contact/">Contact Howard Lake Village</a></div>
+            <div class="mobile-nav-contact"><a href="tel:+17634382711">Call us: +1 763-438-2711</a><a href="/contact/">Contact Howard Lake Village</a></div>
           </nav>
           ${availabilityAction}
         </div>
@@ -277,7 +276,7 @@ class SiteLocation extends HTMLElement {
             <p class="eyebrow">${item.eyebrow}</p>
             <h2 id="location-${property}-title">${item.title}</h2>
             <address>${item.address}</address>
-            <p class="location-contact-links"><a href="tel:+17634382711">+1 763-438-2711</a><a href="mailto:info@howardlakevillagemn.com">info@howardlakevillagemn.com</a></p>
+            <p class="location-contact-links"><a href="tel:+17634382711">+1 763-438-2711</a></p>
             <p>The map provides location context for your stay. Use the controls to zoom in or out.</p>
           </div>
           <div class="villa-location__map reveal">
