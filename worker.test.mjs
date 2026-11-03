@@ -17,6 +17,7 @@ assert.equal((await worker.fetch(request(payload),env)).status,200);
 const sent=JSON.parse(calls[1].options.body);
 assert.equal(sent.reply_to,'guest@example.com');
 assert.equal(sent.to[0],env.CONTACT_TO);
+assert.match(sent.text, /Name: Test\nEmail: guest@example.com\nSubject: Question\n\nMessage:\nHello/);
 calls=[];
 globalThis.fetch=async()=>Response.json({success:false});
 assert.equal((await worker.fetch(request(payload),env)).status,400);
@@ -25,6 +26,8 @@ globalThis.fetch=async url=>url.includes('siteverify')?Response.json({success:tr
 assert.equal((await worker.fetch(request(payload),env)).status,502);
 const stay={kind:'availability',token:'token',fields:{accommodation:'The Villa','arrival-date':'2027-02-01','departure-date':'2027-02-03','guest-count':'2','first-name':'Test','last-name':'Guest',email:'guest@example.com'}};
 assert.equal((await worker.fetch(request({...stay,fields:{...stay.fields,'departure-date':'2027-01-01'}}),env)).status,400);
-globalThis.fetch=async url=>Response.json(url.includes('siteverify')?{success:true,hostname:'test.example',action:'contact'}:{id:'mock-id'});
+calls=[];
+globalThis.fetch=async (url,options)=>{ calls.push({url,options}); return Response.json(url.includes('siteverify')?{success:true,hostname:'test.example',action:'contact'}:{id:'mock-id'}); };
 assert.equal((await worker.fetch(request(stay),env)).status,200);
+assert.match(JSON.parse(calls[1].options.body).text, /Check-in: February 1, 2027\nCheck-out: February 3, 2027/);
 console.log('Worker checks passed: configuration, origin, validation, Reply-To, delivery failure, spam and rate limit. No email sent.');

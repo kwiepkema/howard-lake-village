@@ -50,6 +50,10 @@ export default {
         !/^\d+$/.test(clean['guest-count']) || Number(clean['guest-count'])<1 || Number(clean['guest-count'])>999) return reply(400,'Please check your stay, dates and guest count.');
     }
     if(typeof data.token !== 'string' || data.token.length > 2048 || !data.token) return reply(400,'Please complete the security check.');
+    const displayDate = value => new Date(`${value}T00:00:00Z`).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric', timeZone:'UTC'});
+    const messageText = contact
+      ? [`Name: ${clean['contact-name']}`, `Email: ${sender}`, `Subject: ${clean['contact-subject']}`, '', 'Message:', clean['contact-message']].join('\n')
+      : ['New availability enquiry', '', `Guest: ${clean['first-name']} ${clean['last-name']}`, `Email: ${sender}`, `Phone: ${clean.phone || 'Not provided'}`, '', `Property: ${clean.accommodation}`, `Check-in: ${displayDate(clean['arrival-date'])}`, `Check-out: ${displayDate(clean['departure-date'])}`, `Guests: ${clean['guest-count']}`, `Pets: ${clean.pets || 'Not provided'}`, '', 'Message:', clean['guest-message'] || 'Not provided'].join('\n');
     try {
       const verify = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
         method:'POST',body:new URLSearchParams({secret:env.TURNSTILE_SECRET_KEY,response:data.token,remoteip:ip}),signal:AbortSignal.timeout(10000)
@@ -60,7 +64,7 @@ export default {
         method:'POST', headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
         body:JSON.stringify({from:env.CONTACT_FROM,to:[env.CONTACT_TO],reply_to:sender,
           subject:contact ? 'Howard Lake Village — contact enquiry' : 'Howard Lake Village — availability enquiry',
-          text:allowed.map(key=>`${key}: ${clean[key]}`).join('\n\n')}),signal:AbortSignal.timeout(15000)
+          text:messageText}),signal:AbortSignal.timeout(15000)
       });
       if(!sent.ok) return reply(502,'We could not send your message. Please try again later or use the email link.');
       return reply(200,'Your enquiry has been sent. This does not confirm a reservation.');
