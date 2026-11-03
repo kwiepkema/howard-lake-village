@@ -1,0 +1,9 @@
+{
+  "name": "howard-lake-village-static",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node build.cjs",
+    "check": "node check.cjs"
+  }
+}

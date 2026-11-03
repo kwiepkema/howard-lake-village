@@ -1,0 +1,263 @@
+/* Shared, deliberately scoped presentation for the reviewed components. */
+/* Homepage desktop only: compact headline and balanced hero spacing. */
+@media (min-width: 68.01rem) {
+  body.site-refresh:is(.home-page,.villa-test,.manor-page,.both-page) .villa-hero {
+    min-height: calc(100svh - var(--header-height));
+    align-items: center;
+  }
+  body.site-refresh:is(.home-page,.villa-test,.manor-page,.both-page) .villa-hero .page-hero__content {
+    padding-top: 2rem;
+    padding-bottom: 7rem;
+  }
+  body.site-refresh:is(.home-page,.villa-test,.manor-page,.both-page) .villa-hero .page-hero__copy {
+    margin-top: clamp(0px, calc(100svh - 650px), 110px);
+  }
+  body.site-refresh .page-hero .page-hero__copy h1,
+  body.site-refresh.about-page .about-intro__copy h1 {
+    font-size: clamp(4rem, 4.8vw, 5.1rem);
+    line-height: 1.08;
+  }
+  body.site-refresh:is(.villa-test,.manor-page,.both-page) .page-hero .page-hero__copy h1 {
+    font-size: 60px;
+  }
+  body.site-refresh .page-hero:not(.villa-hero) .page-hero__content {
+    padding-top: clamp(4rem, 8svh, 6rem);
+    padding-bottom: 4rem;
+  }
+  body.site-refresh.about-page .about-intro {
+    padding-top: clamp(4rem, 8svh, 6rem);
+  }
+  body.site-refresh.home-page #about.section {
+    padding-top: clamp(3rem, 5svh, 4rem);
+  }
+  body.site-refresh:is(.home-page,.villa-test,.manor-page,.both-page) .villa-hero__controls,
+  body.site-refresh:is(.home-page,.villa-test,.manor-page,.both-page) .villa-hero__dots {
+    bottom: 1.5rem!important;
+  }
+}
+/* Tablet / compact navigation: retain the contact links, hide only the prompt. */
+@media (min-width: 39.01rem) and (max-width: 68rem) {
+  body.site-refresh .contact-bar__inner > p { display: none; }
+}
+/* Restored supplied WhatsApp icon, with a quiet scroll-triggered arrival. */
+body.site-refresh .whatsapp-fab {
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 45;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  animation: none;
+  transform: translateY(.8rem) scale(.88);
+  transition: opacity 350ms ease, transform 350ms ease, visibility 350ms ease;
+}
+body.site-refresh .whatsapp-fab::after { animation: none; content: none; }
+body.site-refresh .whatsapp-fab.is-visible {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+body.site-refresh .whatsapp-fab:focus-visible { outline: 3px solid #e4b85c; outline-offset: 4px; }
+html.nav-open body.site-refresh .whatsapp-fab,
+html.whatsapp-map-in-view body.site-refresh .whatsapp-fab,
+body.site-refresh:has(dialog[open]) .whatsapp-fab,
+body.site-refresh:has(.availability-form:focus-within, [data-contact-form]:focus-within) .whatsapp-fab {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+/* Match the existing sticky booking action's mobile breakpoint. */
+@media (max-width: 39rem) {
+  body.site-refresh .whatsapp-fab {
+    right: max(.75rem, env(safe-area-inset-right));
+    bottom: max(.65rem, env(safe-area-inset-bottom));
+    width: 3rem;
+    height: 3rem;
+  }
+  body.site-refresh .mobile-sticky-cta {
+    left: max(.75rem, env(safe-area-inset-left));
+    right: calc(max(.75rem, env(safe-area-inset-right)) + 3rem + .75rem);
+    bottom: max(.65rem, env(safe-area-inset-bottom));
+    min-height: 3rem;
+    width: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.site-refresh .whatsapp-fab { transition: none; transform: none; }
+}
+body.site-refresh .intro-editorial>.villa-intro-slider,body.site-refresh .editorial-grid--about>.about-story-slider{grid-area:auto!important;grid-column:2!important;grid-row:1!important}
+body.site-refresh .editorial-grid--about>.editorial-copy{grid-column:1!important;grid-row:1!important}
+body.site-refresh main .footer-contact :is(p,address,a),body.site-refresh main .villa-location__copy :is(strong,span){color:white!important}
+body.site-refresh main .feature-copy :is(p,li,.eyebrow),body.site-refresh main .feature-copy li::before,body.site-refresh .footer-contact :is(p,address,a,.eyebrow){color:white!important}
+body.site-refresh .rate-preview__grid strong{font-size:clamp(2.2rem,4vw,3.5rem)!important}
+body.site-refresh main :is(.villa-location__copy,.location-copy,.link-panel,.final-cta__content,.final-cta__inner) :is(p,li,address,.eyebrow){color:#fff!important}
+body.site-refresh main .story-copy :is(p,.eyebrow),body.site-refresh main .editorial-copy .text-link{color:#103d35!important}
+body.site-refresh main .editorial-copy .text-link{text-decoration-color:rgba(16,61,53,.45)!important}
+body.site-refresh main :is(.page-hero,.final-cta) .eyebrow{background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important;padding:0!important;color:#fff!important}
+body.site-refresh main .eyebrow{font-size:.9rem!important;line-height:1.5!important;letter-spacing:.14em}
+body.site-refresh :is(.gallery-grid,.page-gallery,.villa-gallery-grid){display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-auto-rows:auto!important;gap:1rem!important;align-items:start}
+body.site-refresh main :is(.gallery-item,.villa-gallery-item,.villa-gallery-grid>a){display:grid!important;position:relative!important;grid-column:auto!important;grid-row:auto!important;grid-template-rows:auto 4rem!important;aspect-ratio:auto!important;min-height:0!important;padding:0!important;border:0;overflow:hidden;border-radius:1.15rem;background:#103d35;cursor:pointer;text-align:left}
+body.site-refresh main :is(.gallery-item,.villa-gallery-item,.villa-gallery-grid>a) picture{display:block!important;position:static!important;width:100%!important;height:auto!important;aspect-ratio:3/2!important;overflow:hidden;background:#ecebe4}
+body.site-refresh main :is(.gallery-item,.villa-gallery-item,.villa-gallery-grid>a) img{display:block!important;position:static!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:3/2!important;object-fit:contain!important;transform:none!important;background:#ecebe4}
+body.site-refresh main :is(.gallery-item,.villa-gallery-item,.villa-gallery-grid>a)>span{display:flex!important;position:static!important;align-items:center;min-height:4rem;opacity:1!important;visibility:visible!important;transform:none!important;padding:1rem!important;color:white!important;background:#103d35!important;font-size:1rem!important;font-weight:700;line-height:1.35;text-align:left}
+body.site-refresh main .gallery-item::after,body.site-refresh main .villa-gallery-item::after{display:none!important}
+body.site-refresh main .gallery-item[hidden]{display:none!important}
+body.site-refresh main .gallery-grid .gallery-item:nth-child(n+7){display:block!important}
+body.site-refresh main .gallery-grid .gallery-item[hidden]{display:none!important}
+body.site-refresh .rate-preview__grid article{padding:1.6rem!important;border:1px solid rgba(16,59,51,.1)!important;border-radius:1rem!important;background:#f5f1e8!important}
+body.site-refresh .rate-preview__grid article>span{color:#8a5a09!important;font-size:.82rem!important;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+body.site-refresh .rate-preview__grid article p{margin:0!important;color:#425953!important;font-size:.95rem!important}
+body.site-refresh .villa-booking-details{padding:1.15rem 5.25rem 1.15rem 1.25rem!important;border:1px solid rgba(16,59,51,.13)!important;border-radius:1rem!important;background:#f7f4ed!important}
+body.site-refresh .map-control-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 1rem;background:#fff;color:#103d35;border-top:1px solid #d9ded8}
+body.site-refresh .map-control-bar>span{font-weight:750}
+body.site-refresh .map-control-actions{display:flex;gap:.5rem}
+body.site-refresh .map-control-actions button{display:grid;place-items:center;width:3rem;height:3rem;padding:0;border:1px solid #b9c6c1;border-radius:50%;background:#fff;color:#103d35;font-size:1.5rem;font-weight:750;line-height:1;cursor:pointer}
+body.site-refresh .map-control-actions button:hover,body.site-refresh .map-control-actions button:focus-visible{background:#103d35;color:#fff}
+body.site-refresh .map-control-actions button:disabled{opacity:.4;cursor:not-allowed}
+body.site-refresh :is(.villa-intro-slider,.about-story-slider){position:relative!important;width:100%;height:auto!important;aspect-ratio:3/2!important;min-height:0!important;overflow:hidden;border-radius:1.5rem;align-self:center}
+body.site-refresh .villa-intro-slider__media{position:relative!important;width:100%;height:100%!important;aspect-ratio:3/2}
+body.site-refresh .villa-intro-slide{position:absolute!important;inset:0!important;margin:0!important;width:100%;height:100%!important;opacity:0;visibility:hidden}
+body.site-refresh .villa-intro-slide.is-active{opacity:1!important;visibility:visible!important}
+body.site-refresh .villa-intro-slide :is(picture,img){display:block;width:100%!important;height:100%!important;object-fit:contain!important;background:#f1efe8}
+body.site-refresh :is(.villa-intro-slider__controls,.villa-hero__controls){position:absolute!important;inset:50% .8rem auto!important;display:flex!important;justify-content:space-between!important;transform:translateY(-50%);z-index:4;pointer-events:none}
+body.site-refresh :is(.villa-intro-slider__controls,.villa-hero__controls) button{pointer-events:auto;width:44px!important;height:44px!important;min-width:44px;border-radius:50%;border:1px solid #ffffffb3;background:#fffffff0!important;color:#103d35!important;font-size:1.35rem!important;box-shadow:0 2px 10px #103d3520}
+body.site-refresh .villa-intro-slider__dots{position:absolute!important;bottom:.8rem;left:0;right:0;z-index:4;display:flex;justify-content:center;gap:.6rem}
+body.site-refresh .villa-intro-slider__dots button{width:12px;height:12px;border:1px solid white;border-radius:50%;background:#103d3580;padding:0}
+body.site-refresh .villa-intro-slider__dots button[aria-current=true]{background:white}
+body.site-refresh main .page-parallax{display:flex;align-items:center;padding:5rem 0;background-size:cover;background-position:center;min-height:42rem}
+body.site-refresh main .page-parallax__shade{background:none!important}
+body.site-refresh main .page-parallax__content{width:min(43rem,calc(100% - 3rem))!important;margin:0 0 0 max(1.5rem,calc((100vw - 75rem)/2))!important;padding:clamp(2rem,4vw,3rem)!important;background:rgba(250,249,244,.9)!important;backdrop-filter:none!important;text-align:left!important;border-radius:1.5rem}
+body.site-refresh main .page-parallax__content h2{font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(2.7rem,4.3vw,4.2rem);line-height:1.08;color:#103d35!important;margin:1rem 0 1.7rem}
+body.site-refresh main .page-parallax__content p{color:#344c46!important;line-height:1.75;margin-top:1.25rem}
+body.site-refresh main .page-parallax__content .eyebrow{color:#22675a!important;margin:0}
+body.site-refresh main .editorial-media{aspect-ratio:auto!important;height:auto!important;min-height:0!important}
+body.site-refresh main .editorial-media img{height:auto!important;aspect-ratio:auto!important;object-fit:contain!important}
+body.site-refresh .lightbox[open]{position:fixed;inset:0;width:100vw;max-width:none;height:100dvh;max-height:none;margin:0;padding:0;border:0;background:#082923;color:white;z-index:10000}
+body.site-refresh .lightbox-shell{height:100%;width:100%;padding:4rem 4rem 2rem;display:flex;align-items:center;justify-content:center;position:relative}
+body.site-refresh .lightbox figure{margin:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center}
+body.site-refresh .lightbox figure img{position:static;width:auto;max-width:100%;height:auto;max-height:calc(100dvh - 10rem);object-fit:contain}
+body.site-refresh .lightbox figcaption{display:flex;justify-content:space-between;gap:1rem;width:100%;padding:1rem;color:white}
+body.site-refresh .lightbox-button{z-index:2;min-width:44px;min-height:44px;color:#103d35;background:white;border-radius:50%;border:0}
+body.site-refresh .lightbox-close-form{position:absolute;top:1rem;right:1rem;z-index:3}
+body.site-refresh .lightbox-previous{position:absolute;left:.6rem;top:50%}
+body.site-refresh .lightbox-next{position:absolute;right:.6rem;top:50%}
+@media(max-width:68rem){body.site-refresh :is(.gallery-grid,.page-gallery,.villa-gallery-grid){grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:50rem){body.site-refresh .intro-editorial>.villa-intro-slider,body.site-refresh .editorial-grid--about>.about-story-slider,body.site-refresh .editorial-grid--about>.editorial-copy{grid-area:auto!important;grid-column:1!important;grid-row:auto!important}body.site-refresh main .page-hero .eyebrow{color:#22675a!important}body.site-refresh main .page-parallax{background-attachment:scroll;padding:17rem 0 1rem;min-height:0}body.site-refresh main .page-parallax__content{width:calc(100% - 2rem)!important;margin:0 1rem!important;padding:1.5rem!important}body.site-refresh .lightbox-shell{padding:4rem 3.2rem 1rem}body.site-refresh .lightbox figcaption{flex-direction:column;padding:1rem 0}}
+@media(max-width:39rem){body.site-refresh :is(.gallery-grid,.page-gallery,.villa-gallery-grid){grid-template-columns:1fr!important}}
+@media(prefers-reduced-motion:reduce){body.site-refresh .page-parallax{background-attachment:scroll!important}}
+
+/* Follow-up annotations: scoped to the reviewed components. */
+body.site-refresh.about-page.about-map-in-view .mobile-sticky-cta{visibility:hidden!important;pointer-events:none!important}
+@media(max-width:39rem){body.site-refresh .contact-bar,body.site-refresh .site-header.is-scrolled .contact-bar{height:auto!important;max-height:none!important;overflow:visible!important}body.site-refresh .contact-bar__inner,body.site-refresh .site-header.is-scrolled .contact-bar__inner{height:auto!important;min-height:3.4rem!important}body.site-refresh .contact-bar__links{align-self:center}}
+@media(max-width:62rem){body.site-refresh .contact-bar__links{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.25rem .7rem;width:100%}body.site-refresh .contact-bar__links a{font-size:.78rem;line-height:1.5}body.site-refresh .contact-bar__inner{height:auto!important;min-height:2.2rem;padding-block:.35rem}body.site-refresh .mobile-nav-contact{display:grid;gap:1rem}body.site-refresh.about-page.about-map-in-view .mobile-sticky-cta{visibility:hidden;pointer-events:none}}
+body.site-refresh #availability-dialog{position:fixed;inset:0;margin:auto;width:min(44rem,calc(100% - 2rem));max-height:calc(100dvh - 2rem);overflow:auto;border-radius:1.5rem;background:#faf9f4;color:#103d35}
+body.site-refresh #availability-dialog>.dialog-heading{position:relative;padding:2rem 4.5rem 0 2rem}
+body.site-refresh #availability-dialog .dialog-heading h2{font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin:.5rem 0 1rem}
+body.site-refresh #availability-dialog .dialog-heading p{line-height:1.6}
+body.site-refresh #availability-dialog .dialog-heading>form{position:absolute;right:1rem;top:1rem}
+body.site-refresh #availability-dialog .dialog-close{display:grid;place-items:center;width:44px;height:44px;border:1px solid #cbd5cf;border-radius:50%;background:white;color:#103d35;font-size:1.6rem;cursor:pointer}
+body.site-refresh #availability-dialog>.availability-form{padding:0 2rem 2rem}
+body.site-refresh #availability-dialog .stay-options{display:grid;gap:.65rem;margin-top:.75rem}
+body.site-refresh #availability-dialog .stay-options label{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;border:1px solid #cbd5cf;border-radius:.75rem;background:#f1efe8;cursor:pointer}
+body.site-refresh #availability-dialog .stay-options label:has(input:checked){border-color:#22675a;background:#e4efe9}
+body.site-refresh #availability-dialog .stay-options input{width:1.1rem;height:1.1rem;flex:none;accent-color:#22675a}
+body.site-refresh #availability-dialog .stay-options span{display:grid;gap:.2rem}
+body.site-refresh #availability-dialog .stay-options small{font-size:.85rem;color:#425953}
+body.site-refresh #availability-dialog .form-grid{gap:1rem}
+body.site-refresh #availability-dialog .form-grid>label{display:grid;gap:.4rem;min-width:0;font-weight:700;font-size:.95rem}
+body.site-refresh #availability-dialog .form-grid :is(input,select,textarea){box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:.7rem .8rem;border:1px solid #b9c6c1;border-radius:.5rem;background:white;color:#103d35;font:inherit;font-weight:400}
+body.site-refresh #availability-dialog .form-grid__wide{grid-column:1/-1}
+body.site-refresh #availability-dialog :is(input,select,textarea,button):focus-visible{outline:3px solid #22675a;outline-offset:3px}
+body.site-refresh main .link-panel .eyebrow{background:none!important;padding:0!important;color:white!important;border-radius:0!important}
+body.site-refresh .contact-bar,body.site-refresh .site-header.is-scrolled .contact-bar{display:block!important;visibility:visible!important}
+body.site-refresh .contact-bar__links a{overflow-wrap:anywhere}
+body.site-refresh.home-page .review-carousel-heading{align-items:center;flex-direction:column;text-align:center}
+body.site-refresh.home-page .review-carousel{grid-auto-columns:min(44rem,100%);padding:1rem max(.15rem,calc((100% - 44rem)/2)) 1.25rem}
+body.site-refresh.home-page .review-card{min-height:17rem;padding:clamp(1.7rem,4vw,2.75rem);border:1px solid rgba(16,59,51,.12);border-radius:1.15rem;background:rgba(255,255,255,.72);text-align:center}
+body.site-refresh.home-page .review-card blockquote{max-width:28ch;margin-inline:auto}
+body.site-refresh.home-page .review-card figcaption{justify-items:center}
+@media(min-width:62rem){body.site-refresh :is(.villa-test,guest-reviews) #guest-reviews-title,body.site-refresh #guest-reviews-title{max-width:none;white-space:nowrap;font-size:clamp(2rem,3.5vw,3.3rem)}}
+@media(min-width:50.01rem){body.site-refresh main .page-parallax--things .page-parallax__content{padding-block:1.5rem!important}}
+@media(max-width:68rem){body.site-refresh.about-page .choice-grid--split .choice-card--photo{background-size:cover;background-position:center top;padding-top:0;background-image:none!important}body.site-refresh.about-page .choice-grid--split .choice-card--photo::before{display:block;position:static;height:auto;aspect-ratio:3/2;margin:-0px -1.55rem 1.5rem;background-image:var(--choice-image);background-size:cover;background-position:center;content:""}}
+@media(max-width:50rem){body.site-refresh.home-page .intro-editorial>.villa-intro-slider{margin-top:2rem}body.site-refresh #availability-dialog .form-grid{grid-template-columns:1fr}body.site-refresh #availability-dialog>.dialog-heading{padding:1.5rem 4rem 0 1.25rem}body.site-refresh #availability-dialog>.availability-form{padding:0 1.25rem 1.5rem}body.site-refresh.fishing-page main .page-hero .eyebrow{color:white!important}body.site-refresh.about-page .about-intro__copy h1{font-size:clamp(3.25rem,15vw,4.6875rem)}body.site-refresh.about-page .villa-location{padding-bottom:7rem}body.site-refresh.about-page .villa-location__map{margin-bottom:1rem}body.site-refresh.both-page .property-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem 1rem}body.site-refresh.both-page .property-facts li::before{display:none}}
+
+/* Only the three approved follow-ups: mobile contact, non-mobile hero controls,
+   and the repeated Rent Both parallax photograph. No slider logic changes. */
+@media (max-width: 50rem) {
+  body.site-refresh .contact-bar__links > a[href="/contact/"] { display: none; }
+  body.site-refresh .contact-bar__inner,
+  body.site-refresh .site-header.is-scrolled .contact-bar__inner { min-height: 2.2rem!important; }
+}
+@media (min-width: 50.01rem) {
+  body.site-refresh .villa-hero .page-hero__content { padding-bottom: 7rem; }
+  body.site-refresh .villa-hero__controls {
+    inset: auto auto 1rem 50%!important;
+    width: 18rem;
+    transform: translateX(-50%);
+  }
+  body.site-refresh .villa-hero__dots {
+    bottom: 1rem;
+    height: 44px;
+    align-items: center;
+    pointer-events: none;
+  }
+  body.site-refresh .villa-hero__dots button { pointer-events: auto; }
+}
+body.site-refresh.both-page main .page-parallax--both {
+  background-image: url('/assets/images/three-bedroom-1200.webp');
+}
+
+/* Approved final readability/contact corrections, limited to these elements. */
+body.site-refresh.home-page .feature-copy > .eyebrow {
+  color: #fff!important;
+  background: none!important;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+body.site-refresh .location-contact-links {
+  display: grid;
+  gap: .5rem;
+  margin: 1.25rem 0 0;
+}
+body.site-refresh .location-contact-links a {
+  width: fit-content;
+  max-width: 100%;
+  color: #fff!important;
+  font-weight: 700;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+/* Compact homepage introduction to the existing About Us story. */
+body.site-refresh.home-page .home-hosts { padding-block: clamp(3rem, 5vw, 4.5rem); }
+body.site-refresh.home-page .home-hosts__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  max-width: 58rem;
+}
+body.site-refresh.home-page .home-hosts__portrait { display: block; width: 100%; }
+body.site-refresh.home-page .home-hosts__portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  border-radius: 1.25rem;
+}
+body.site-refresh.home-page .home-hosts__copy { min-width: 0; color: #103d35; }
+body.site-refresh.home-page .home-hosts__copy > p:not(.eyebrow) {
+  color: #344c46;
+  line-height: 1.75;
+  margin-block: 1rem;
+}
+body.site-refresh.home-page .home-hosts__copy .text-link { color: #103d35; }
+@media (max-width: 50rem) {
+  body.site-refresh.home-page .home-hosts__grid { grid-template-columns: 1fr; gap: 1.75rem; }
+  body.site-refresh.home-page .home-hosts__portrait { max-width: 15rem; justify-self: center; }
+}
