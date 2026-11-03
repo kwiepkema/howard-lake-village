@@ -10,6 +10,8 @@ export default {
     if (request.method !== 'POST') return reply(405,'Method not allowed.');
     if (request.headers.get('Origin') !== url.origin) return reply(403,'Please send your request from this website.');
     if (!env.RESEND_API_KEY || !env.CONTACT_TO || !env.CONTACT_FROM || !env.TURNSTILE_SECRET_KEY || !env.CONTACT_RATE_LIMITER) return reply(503,'The form is not available yet. Please use the email or phone link.');
+    const recipients = env.CONTACT_TO.split(',').map(value => value.trim()).filter(Boolean);
+    if (!recipients.length || recipients.some(value => !email(value))) return reply(503,'The form is not available yet. Please use the email or phone link.');
     if (!request.headers.get('Content-Type')?.startsWith('application/json')) return reply(415,'Invalid request.');
     const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
     if (!(await env.CONTACT_RATE_LIMITER.limit({key:ip})).success) return reply(429,'Too many attempts. Please wait a minute and try again.');
@@ -62,7 +64,7 @@ export default {
       if(!verify.ok || !result.success || result.hostname !== url.hostname || result.action !== 'contact') return reply(400,'The security check expired. Please try again.');
       const sent = await fetch('https://api.resend.com/emails', {
         method:'POST', headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
-        body:JSON.stringify({from:env.CONTACT_FROM,to:[env.CONTACT_TO],reply_to:sender,
+        body:JSON.stringify({from:env.CONTACT_FROM,to:recipients,reply_to:sender,
           subject:contact ? 'Howard Lake Village — contact enquiry' : 'Howard Lake Village — availability enquiry',
           text:messageText}),signal:AbortSignal.timeout(15000)
       });
