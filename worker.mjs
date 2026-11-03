@@ -53,9 +53,16 @@ export default {
     }
     if(typeof data.token !== 'string' || data.token.length > 2048 || !data.token) return reply(400,'Please complete the security check.');
     const displayDate = value => new Date(`${value}T00:00:00Z`).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric', timeZone:'UTC'});
-    const messageText = contact
-      ? [`Name: ${clean['contact-name']}`, `Email: ${sender}`, `Subject: ${clean['contact-subject']}`, '', 'Message:', clean['contact-message']].join('\n')
-      : ['New availability enquiry', '', `Guest: ${clean['first-name']} ${clean['last-name']}`, `Email: ${sender}`, `Phone: ${clean.phone || 'Not provided'}`, '', `Property: ${clean.accommodation}`, `Check-in: ${displayDate(clean['arrival-date'])}`, `Check-out: ${displayDate(clean['departure-date'])}`, `Guests: ${clean['guest-count']}`, `Pets: ${clean.pets || 'Not provided'}`, '', 'Message:', clean['guest-message'] || 'Not provided'].join('\n');
+    const message = contact ? clean['contact-message'] : clean['guest-message'] || 'Not provided';
+    const emailTitle = contact ? 'New contact enquiry' : 'New availability enquiry';
+    const details = contact
+      ? [['Name', clean['contact-name']], ['Email', sender], ['Subject', clean['contact-subject']]]
+      : [['Guest', `${clean['first-name']} ${clean['last-name']}`], ['Email', sender], ['Phone', clean.phone || 'Not provided'], ['Property', clean.accommodation], ['Check-in', displayDate(clean['arrival-date'])], ['Check-out', displayDate(clean['departure-date'])], ['Guests', clean['guest-count']], ['Pets', clean.pets || 'Not provided']];
+    const messageText = [emailTitle, '', ...details.map(([label, value]) => `${label}: ${value}`), '', 'Message:', message,
+      ...(!contact ? ['', 'An enquiry does not confirm a reservation. Availability and booking details will be confirmed separately.'] : [])].join('\n');
+    const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+    const detailRows = details.map(([label, value]) => `<tr><th align="left" style="padding:9px 14px 9px 0;color:#5d6863;font-weight:600;vertical-align:top">${escapeHtml(label)}</th><td style="padding:9px 0;color:#24312b;border-bottom:1px solid #e5eae7">${escapeHtml(value)}</td></tr>`).join('');
+    const emailHtml = `<div style="margin:0;background:#f4f6f4;padding:28px 12px;font-family:Arial,Helvetica,sans-serif;color:#24312b"><div style="max-width:620px;margin:0 auto;background:#fff;border:1px solid #e1e7e3;border-radius:12px;overflow:hidden"><div style="padding:22px 26px;background:#213b32;color:#fff"><p style="margin:0 0 6px;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#d9e5dc">Howard Lake Village</p><h1 style="margin:0;font-size:22px;line-height:1.3">${emailTitle}</h1></div><div style="padding:22px 26px"><table role="presentation" style="width:100%;border-collapse:collapse">${detailRows}</table><h2 style="margin:26px 0 10px;font-size:16px">Message</h2><div style="padding:14px 16px;background:#f6f8f6;border-left:3px solid #6f8f7d;border-radius:4px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere">${escapeHtml(message)}</div>${!contact ? '<p style="margin:22px 0 0;color:#65716b;font-size:13px;line-height:1.5">An enquiry does not confirm a reservation. Availability and booking details will be confirmed separately.</p>' : ''}</div></div></div>`;
     try {
       const verify = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
         method:'POST',body:new URLSearchParams({secret:env.TURNSTILE_SECRET_KEY,response:data.token,remoteip:ip}),signal:AbortSignal.timeout(10000)
@@ -66,7 +73,7 @@ export default {
         method:'POST', headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
         body:JSON.stringify({from:env.CONTACT_FROM,to:recipients,reply_to:sender,
           subject:contact ? 'Howard Lake Village — contact enquiry' : 'Howard Lake Village — availability enquiry',
-          text:messageText}),signal:AbortSignal.timeout(15000)
+          text:messageText,html:emailHtml}),signal:AbortSignal.timeout(15000)
       });
       if(!sent.ok) return reply(502,'We could not send your message. Please try again later or use the email link.');
       return reply(200,'Your enquiry has been sent. This does not confirm a reservation.');
