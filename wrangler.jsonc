@@ -5,8 +5,8 @@
   "main": "worker.mjs",
   "vars": {
     "CONTACT_FROM": "onboarding@resend.dev",
-    "CONTACT_TO": "",
-    "TURNSTILE_SITE_KEY": ""
+    "CONTACT_TO": "k.wiepkema@gmail.com",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFxyt8btiIpXiIyx"
   },
   "ratelimits": [{"name":"CONTACT_RATE_LIMITER","namespace_id":"1001","simple":{"limit":5,"period":60}}],
   "assets": {

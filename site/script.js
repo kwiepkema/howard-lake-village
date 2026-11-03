@@ -6,7 +6,15 @@ function loadTurnstile() {
   if (!turnstileLoader) turnstileLoader = new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-    script.onload = () => window.turnstile.ready(resolve);
+    // This script is inserted dynamically, so its load event means the API is ready.
+    // Calling turnstile.ready() here can fail because the script itself loads async.
+    script.onload = () => {
+      if (window.turnstile) resolve();
+      else {
+        turnstileLoader = null;
+        reject(new Error('Security check could not initialize. Please try again.'));
+      }
+    };
     script.onerror = () => { turnstileLoader = null; reject(new Error('Security check could not load. Please try again.')); };
     document.head.append(script);
   });
