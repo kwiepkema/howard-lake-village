@@ -43,7 +43,7 @@ for(const file of files) {
   for(const m of text.matchAll(/url\(["']?([^)'"\s]+)["']?\)/g)) check(m[1],file);
 }
 const sitemap = fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
-for(const m of sitemap.matchAll(/<loc>https:\/\/howardlakevillagemn.com([^<]*)<\/loc>/g)) check(m[1],path.join(root,'sitemap.xml'));
+for(const m of sitemap.matchAll(/<loc>https:\/\/howardlakevillage\.com([^<]*)<\/loc>/g)) check(m[1],path.join(root,'sitemap.xml'));
 if((sitemap.match(/<loc>/g)||[]).length!==pages) failures.push('Sitemap/page count differs');
 console.log(JSON.stringify({pages,files:files.length,references,failures},null,2));
 if(failures.length) process.exitCode=1;

@@ -25,6 +25,6 @@ function copy(dir, relative = '') {
 copy(source);
 fs.writeFileSync(path.join(output, '_headers'),
   (production ? '' : '/*\n  X-Robots-Tag: noindex, nofollow\n\n') +
-  'https://:worker.workers.dev/*\n  X-Robots-Tag: noindex, nofollow\n\n' +
+  'https://:version.:subdomain.workers.dev/*\n  X-Robots-Tag: noindex, nofollow\n\n' +
   '/*\n  X-Content-Type-Options: nosniff\n');
 console.log(`Built ${production ? 'PRODUCTION (custom domain indexable)' : 'TEST (noindex)'} assets.`);
